@@ -1,17 +1,20 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import dotenv from "dotenv"; // ✅ Load .env in local dev
+
+dotenv.config(); // ✅ Enables access to process.env
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // ✅ Use environment port if available
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "world",
-  password: "#king69@#",
-  port: 5433,
+  connectionString: process.env.DATABASE_URL, // ✅ Use env variable
+  ssl: {
+    rejectUnauthorized: false, // ✅ Required for Render's PostgreSQL
+  },
 });
+
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
