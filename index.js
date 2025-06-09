@@ -15,7 +15,21 @@ const db = new pg.Client({
   },
 });
 
-db.connect();
+async function startServer() {
+  try {
+    await db.connect();
+    console.log("✅ Connected to PostgreSQL");
+    
+    app.listen(port, () => {
+      console.log(`✅ Server running on http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("❌ Error connecting to PostgreSQL:", err);
+  }
+}
+
+startServer();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
