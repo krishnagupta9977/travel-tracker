@@ -46,14 +46,15 @@ async function getCurrentUser() {
 }
 
 app.get("/", async (req, res) => {
-  const countries = await checkVisisted();
-  const currentUser = await getCurrentUser();
-  res.render("index.ejs", {
-    countries: countries,
-    total: countries.length,
-    users: users,
-    color: currentUser.color,
-  });
+  // const countries = await checkVisisted();
+  // const currentUser = await getCurrentUser();
+  // res.render("index.ejs", {
+  //   countries: countries,
+  //   total: countries.length,
+  //   users: users,
+  //   color: currentUser.color,
+  // });
+   res.send("server is running");
 });
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
