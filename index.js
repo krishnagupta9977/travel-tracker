@@ -15,21 +15,7 @@ const db = new pg.Client({
   },
 });
 
-async function startServer() {
-  try {
-    await db.connect();
-    console.log("✅ Connected to PostgreSQL");
-    
-    app.listen(port, () => {
-      console.log(`✅ Server running on http://localhost:${port}`);
-    });
-  } catch (err) {
-    console.error("❌ Error connecting to PostgreSQL:", err);
-  }
-}
-
-startServer();
-
+db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -81,11 +67,11 @@ app.post("/add", async (req, res) => {
 
     const data = result.rows[0];
     const countryCode = data.country_code;
-    const countryname =data.country_name;
+   // const countryname =data.country_name;
     try {
       await db.query(
-        "INSERT INTO visited_countries (country_code, user_id,country_name) VALUES ($1, $2, $3)",
-        [countryCode, currentUserId,countryname]
+        "INSERT INTO visited_countries (country_code, user_id) VALUES ($1, $2)",
+        [countryCode, currentUserId]
       );
       res.redirect("/");
     } catch (err) {
